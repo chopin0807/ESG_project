@@ -56,7 +56,7 @@ def NaverArticle(search, start_date, end_date):
                 if i == 'url없음':
                     content_list.append('<네이버 기사 없음>')
                 else:
-                    time.sleep(random.uniform(1,5)) # 접속차단을 최대한 방지하기 위해 1초~5초 사이에 랜덤으로 지연
+                    time.sleep(random.uniform(1,10)) # 접속차단을 최대한 방지하기 위해 1초~5초 사이에 랜덤으로 지연
                     content_url = i # 해당 기사 링크로 진입
                     content_res = requests.get(content_url, headers=headers)
                     content_soup = BeautifulSoup(content_res.text, 'html.parser')

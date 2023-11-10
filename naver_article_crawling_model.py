@@ -8,7 +8,7 @@ import random
 
 def NaverArticle(search, start_date, end_date):
     # csv 파일 쓰기
-    f = open("news.csv", "w", newline="", encoding="utf-8")
+    f = open("news({}, {}~{}).csv".format(search, start_date, end_date), "w", newline="", encoding="utf-8")
     wr = csv.writer(f)
     index = ["기사날짜", "기사제목", "네이버 뉴스 url", "기사내용"]
     wr.writerow(index)

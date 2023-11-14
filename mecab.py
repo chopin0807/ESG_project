@@ -84,4 +84,4 @@ token_result = token_result.dropna(subset=['tokens'])
 print(token_result)
 
 #csv파일 만들기
-token_result.to_csv('news_mecab.csv', index=False)
+token_result.to_csv('우리은행_news.csv', index=False)

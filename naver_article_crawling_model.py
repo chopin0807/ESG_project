@@ -15,7 +15,7 @@ def NaverArticle(search, start_date, end_date):
     wr.writerow(index)
 
     page = 1 # 기사 페이지
-    while True:
+    while page <= 400: # 네이버 사이트에서 최대 400패이지까지 제공
         url = 'https://search.naver.com/search.naver?where=news&sm=tab_pge&query={}&sort=0&photo=0&field=0&pd=3&ds={}&de={}&cluster_rank=46&mynews=0&office_type=0&office_section_code=0&news_office_checked=&office_category=0&service_area=0&nso=so:r,p:from20211001to20230930,a:all&start={}'.format(search, start_date, end_date, str(10 * page - 9))
         headers = {'User-Agent':'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'}
         res = requests.get(url, headers=headers)

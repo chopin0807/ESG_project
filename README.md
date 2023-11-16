@@ -24,8 +24,8 @@ https://docs.google.com/spreadsheets/d/1OL9RL9NMSGTWpZp6jJkyn-xvZ2OAUtbqDYbEaGVq
 ## 📚 데이터
 | 데이터   | 참고                                     | 출처                          |
 | ------ | -------------------------------------------- | ----------------------------- |
-| 뉴스수집 | 네이버 증권 뉴스      | https://finance.naver.com/news/ |
-| 주식거래량수집 | 네이버 증권 일별시세   | https://finance.naver.com/sise/ |
+| 기업별 뉴스 수집 | 네이버 뉴스로 크롤링     | https://naver.com |
+| ESG 관련 논문 자료 | ESG 평가방법론, 기업별 gri   | 프로젝트 repository |
 
 
 ## 💻 개발환경

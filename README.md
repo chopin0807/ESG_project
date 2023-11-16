@@ -1,7 +1,7 @@
 # 📈 ESG 등급 평가 모델 프로젝트
 
 ## 📍 소개
-소개소개소개
+ESG관련 평가지표를 도출하여 최종 서비스까지 구현하기 위한 프로젝트
 
 
 ## 📆 기간
@@ -16,9 +16,9 @@ https://docs.google.com/spreadsheets/d/1OL9RL9NMSGTWpZp6jJkyn-xvZ2OAUtbqDYbEaGVq
 
 | 이름   | 역할                                         | url                          |
 | ------ | -------------------------------------------- | ----------------------------- |
-| 백선영 | 팀장, 총괄           | https://github.com/baikAnalyst |
+| 백선영 | 팀장, 프로젝트 총괄 및 일정 관리          | https://github.com/baikAnalyst |
 | 백관민 | 팀원, mecab 모델 활용한 분석             | https://github.com/ |
-| 장연주 | 팀원, 논문내용 탐색 및 자료 탐색  | https://github.com/ |
+| 장연주 | 팀원, 논문내용 탐색 및 자료 탐색, 결과 및 서비스에 대한 시각화  | https://github.com/ |
 | 최준호 | 팀원, 데이터수집 및 서비스 자동화관련 프로그램 구현       | https://github.com/chopin0807 |
 
 ## 📚 데이터

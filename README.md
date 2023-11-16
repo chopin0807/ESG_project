@@ -8,9 +8,9 @@
 
 2023.11.04~2023.12.01
 
-## 📝 노션(WBS)
+## 📝 WBS
 
-https://puddle-sandal-0bf.notion.site/fd17d595ed954d8aaea64ce0672a8fe3?v=2b353239cb4b4d3abf2840e774cbfebd&pvs=4 
+https://docs.google.com/spreadsheets/d/1OL9RL9NMSGTWpZp6jJkyn-xvZ2OAUtbqDYbEaGVqKJI/edit#gid=33477080
  
 ## 👩‍💻 팀원
 

@@ -16,10 +16,10 @@ https://docs.google.com/spreadsheets/d/1OL9RL9NMSGTWpZp6jJkyn-xvZ2OAUtbqDYbEaGVq
 
 | 이름   | 역할                                         | url                          |
 | ------ | -------------------------------------------- | ----------------------------- |
-| 백선영 | 팀장, 논문 요약 리뷰 및 발표, 데이터 전처리(토큰화, 품사 부착, 불용어처리), LDA 토픽모델링, 내생변수 제거, FVE 계산, FPE 계산, 대시보드 제작(예정)           | https://github.com/baikAnalyst |
-| 장연주 | 팀원, 뉴스데이터 수집, 5년치 데이터 병합, 병렬처리, 내생변수 제거, LASSO 회귀 분석, 토픽별 예측 거래량 시각화, FPE 계산, 최종 발표             | https://github.com/ |
-| 백관민 | 팀원, 주식거래량데이터 수집, 피크데이 도출, LDA 시각화  | https://github.com/ |
-| 최준호 | 팀원, 뉴스데이터와 주식거래량 시각화, 최종발표자료 제작       | https://github.com/ |
+| 백선영 | 팀장, 총괄           | https://github.com/baikAnalyst |
+| 백관민 | 팀원, mecab 모델 활용한 분석             | https://github.com/ |
+| 장연주 | 팀원, 논문내용 탐색 및 자료 탐색  | https://github.com/ |
+| 최준호 | 팀원, 데이터수집 및 서비스 자동화관련 프로그램 구현       | https://github.com/chopin0807 |
 
 ## 📚 데이터
 | 데이터   | 참고                                     | 출처                          |

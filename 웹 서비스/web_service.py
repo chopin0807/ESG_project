@@ -16,3 +16,13 @@ with st.sidebar: # 참고 url: https://luvris2.tistory.com/121
         "nav-link-selected": {"background-color": "#02ab21"},
     } # css 설정
     )
+
+# 각 메뉴를 선택시 표시되는 내용
+if choose == "홈":
+    st.write("ESG 평가지표를 다루는 사이트입니다.")
+
+elif choose == "개요":
+    st.write("개요에 대해서는 논의 후 추후 추가합니다.")
+
+elif choose == "관련 논문":
+    st.write("관련 논문은 추후에 pdf파일 리스트를 링크 형식으로 만든 후 클릭하면 내용을 볼 수 있게 합니다.")

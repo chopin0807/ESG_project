@@ -24,7 +24,7 @@ data['기사내용'] = data['기사내용'].str.replace('\n',' ').replace('\t','
 # Mecab 인스턴스 생성
 m = MeCab.Tagger()
 # '기사내용' 열에 대한 사전작업 결과를 '사전작업' 열에 저장
-data['Content'] = data['기사내용'].apply(lambda x: re.sub('[^가-힣ㄱ-ㅎㅏ-ㅣ\\s]', ' ', x))
+data['Content'] = data['기사내용'].apply(lambda x: re.sub('[^가-힣ㄱ-ㅎㅏ-ㅣ\\s]', ' ', str(x)))
 
 def extract_words(text):
     # 텍스트를 Mecab을 사용하여 토큰화
@@ -46,7 +46,7 @@ def extract_words(text):
 
 #'기사내용' 열에 대해 처리
 for i, row in data.iterrows():
-    data.at[i, 'Content'] = extract_words(row['기사내용'])
+    data.at[i, 'Content'] = extract_words(str(row['기사내용']))
 
 result = data[['기사날짜','기사제목','Content']]
 words_list = result['Content'].str.split()

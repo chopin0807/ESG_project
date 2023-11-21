@@ -757,7 +757,8 @@ for i in ISO_S_split:
 for i in ISO_G_split:
     ISO_G_list.append(i.split(":")[0])
 
-# ISO 기준에서 추출한 각 요소의 키워드
-print("ISO_E 키워드: ", ISO_E_list)
-print("ISO_S 키워드: ", ISO_S_list)
-print("ISO_E 키워드: ", ISO_G_list)
+if __name__ == "__main__":
+    # ISO 기준에서 추출한 각 요소의 키워드
+    print("ISO_E 키워드: ", ISO_E_list)
+    print("ISO_S 키워드: ", ISO_S_list)
+    print("ISO_E 키워드: ", ISO_G_list)

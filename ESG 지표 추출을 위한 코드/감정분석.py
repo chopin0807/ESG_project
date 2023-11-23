@@ -7,26 +7,19 @@ Original file is located at
     https://colab.research.google.com/drive/1QxmfVoMCbSejKsiOCHXbJSRBkejLibb9
 """
 
-import warnings
-warnings.filterwarnings(action = 'ignore')
-
-from google.colab import drive
-drive.mount('/content/drive')
-
 import pandas as pd
-df = pd.read_csv('/content/drive/MyDrive/esg 프로젝트/combined_file.csv')
-df
-
+# df = pd.read_csv('/content/drive/MyDrive/esg 프로젝트/combined_file.csv')
+df = pd.read_csv('./기사데이터/우리은행/combined_file.csv') # 프로젝트 폴더(ESG_PROJECT) 내의 최상위 폴더에서 VSCode로 실행해서 파이썬 파일을 실행하면 됩니다.
 df2 = df[~df['기사내용'].isin(['<구조 다름>', '<네이버 기사 없음>'])]
 df2 = df2[['기사제목','기사내용']]
-df2
 
-!pip install mecab-ko-msvc mecab-ko-dic-msvc
+from tqdm import tqdm, tqdm_pandas
 
+tqdm.pandas()
 import json
 
 # JSON 파일로부터 감정 사전 로드
-with open("/content/drive/MyDrive/esg 프로젝트/SentiWord_info.json", "r", encoding="utf-8") as file:
+with open("./SentiWord_info.json", "r", encoding="utf-8") as file: # 프로젝트 폴더(ESG_PROJECT) 내의 최상위 폴더에서 VSCode로 실행해서 파이썬 파일을 실행하면 됩니다.
     sentiment_data = json.load(file)
 
 # JSON 데이터를 토큰-감정 점수 사전으로 변환
@@ -77,7 +70,7 @@ def analyze_korean_sentiment(text):
 
 import re
 # 감정 분석 결과와 토큰을 데이터프레임에 저장
-df2[['sentiment', 'tokens']] = df2['기사내용'].apply(lambda x: pd.Series(analyze_korean_sentiment(x)))
+df2[['sentiment', 'tokens']] = df2['기사내용'].progress_apply(lambda x: pd.Series(analyze_korean_sentiment(x)))
 
 keywords = {
     "E": ['친환경', '물질', '기후', '발생', '요인', '화학', '배출', '생물', '온실가스', '오염', '보전', '생태', '탄소', '유해', '용수', '순환', '산림', '사용량', '부자재', '해양', '설비', '자연', '수자원', '폐수', '녹색', '사슬', '재생', '정량', '지역', '폐기', '배출권', '저탄소', '건강', '플라스틱', '인벤토리', '보호', '피해', '원료', '저감', '신재'],
@@ -96,10 +89,10 @@ def classify_esg(text, keywords):
     return ', '.join(closest_categories) if closest_categories else 'None'
 
 # ESG 카테고리 분류 적용
-df2['ESG'] = df2['tokens'].apply(lambda x: classify_esg(x, keywords))
+df2['ESG'] = df2['tokens'].progress_apply(lambda x: classify_esg(x, keywords))
 
 df2 = df2[['기사제목','tokens','sentiment','ESG']]
 df2 = df2[~df2['sentiment'].isin(['중립'])]
 
+df2.to_csv('./기사 감정분석.csv', index = False)
 print(df2)
-

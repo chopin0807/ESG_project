@@ -25,6 +25,6 @@ for i in csv:
 
     # 필터링된 결과에서 500 -> 200개의 행을 샘플링합니다.
     # 샘플링할 행의 수가 DataFrame의 행 수보다 많을 경우 모든 행을 반환합니다.
-    result = filtered_df.sample(n=min(200, len(filtered_df)), random_state=1)
+    result = filtered_df.sample(n=min(100, len(filtered_df)), random_state=1)
     result = result.reset_index(drop=True)
     result.to_excel("./엑셀파일/{}.xlsx".format(i.split(".csv")[0]))

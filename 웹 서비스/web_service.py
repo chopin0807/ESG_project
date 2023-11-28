@@ -1,7 +1,6 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 import pandas as pd
-import base64
 import os
 
 # 터미널에서 실행(이 파이썬 파일에 속해 있는 디렉터리로 이동해서) -> streamlit run web_service.py
@@ -53,4 +52,7 @@ elif choose == "참고자료":
                     file_name=select_ESG,
                     mime='application/octet-stream')
     with tab2:
-        st.write('ISO 표준 관련 자료 파일을 개시하고, 다운로드 가능하게 합니다.')
+        ISO_report_list = os.listdir("./ISO 자료")
+        select_ISO = st.selectbox("다운받을 ISO 관련 파일을 선택하세요.", ISO_report_list)
+        with open('./ISO 자료/{}'.format(select_ISO), 'rb') as f:
+            st.download_button('Download Docx', f, file_name='./ISO 자료/{}'.format(select_ISO))

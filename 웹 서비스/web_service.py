@@ -6,7 +6,7 @@ import os
 # 터미널에서 실행(이 파이썬 파일에 속해 있는 디렉터리로 이동해서) -> streamlit run web_service.py
 
 with st.sidebar: # 참고 url: https://luvris2.tistory.com/121
-    choose = option_menu("ESG 평가 서비스", ["개요", "ESG 서비스", "참고자료"],
+    choose = option_menu("ESG 평가 서비스", ["ESG 소개", "ESG 서비스", "참고자료"],
                          icons=['pen', 'boxes','database'],
                          menu_icon="bi bi-menu-up", default_index=0,
                          styles={
@@ -20,8 +20,8 @@ with st.sidebar: # 참고 url: https://luvris2.tistory.com/121
 
 # 각 메뉴를 선택시 표시되는 내용
 
-if choose == "개요":
-    tab1, tab2, tab3 = st.tabs(['인사이트', '서비스 목적', '프로세스'])
+if choose == "ESG 소개":
+    tab1, tab2, tab3 = st.tabs(['ESG 인사이트', '서비스 목적', '프로세스'])
 
     with tab1:
         st.header("Find Insight in the ESG Keyword")

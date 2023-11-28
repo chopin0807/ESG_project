@@ -1,8 +1,18 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
 import pandas as pd
+from PIL import Image
+from PyPDF2 import PdfFileReader
+import base64
 
 # 터미널에서 실행(이 파이썬 파일에 속해 있는 디렉터리로 이동해서) -> streamlit run web_service.py
+
+# pdf파일을 읽어서 대시보드에 실행하게하는 메소드임
+def show_pdf(file_path):
+    with open(file_path,"rb") as f:
+        base64_pdf = base64.b64encode(f.read()).decode('utf-8')
+    pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="800" height="800" type="application/pdf"></iframe>'
+    st.markdown(pdf_display, unsafe_allow_html=True)
 
 with st.sidebar: # 참고 url: https://luvris2.tistory.com/121
     choose = option_menu("ESG 평가 서비스", ["개요", "ESG 서비스", "참고자료"],
@@ -41,6 +51,13 @@ elif choose == "참고자료":
     tab1, tab2 = st.tabs(['ESG 논문', 'ISO 표준'])
 
     with tab1:
-        st.write('ESG 관련 논문 자료 파일을 개시하고, 다운로드 가능하게 합니다.')
+        # show_pdf('./ESG 논문/후즈굿_ESG평가방법론_20220427.pdf')
+        with open("./ESG 논문/후즈굿_ESG평가방법론_20220427.pdf", "rb") as pdf_file:
+            PDFbyte = pdf_file.read()
+
+        st.download_button(label="pdf 다운로드",
+                    data=PDFbyte,
+                    file_name="test.pdf",
+                    mime='application/octet-stream')
     with tab2:
         st.write('ISO 표준 관련 자료 파일을 개시하고, 다운로드 가능하게 합니다.')

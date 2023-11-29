@@ -174,13 +174,13 @@ elif choose == "ESG 서비스":
         col1, col2, col3 = st.columns(3)
         with col1:
             st.image("E(환경)분석.png")
-            st.dataframe(E_news.reset_index()[['제목', '점수']])
+            st.dataframe(result[0].reset_index()[['제목', '점수']])
         with col2:
             st.image("S(사회)분석.png")
-            st.dataframe(S_news.reset_index()[['제목', '점수']])
+            st.dataframe(result[1].reset_index()[['제목', '점수']])
         with col3:
             st.image("G(지배)분석.png")
-            st.dataframe(G_news.reset_index()[['제목', '점수']])
+            st.dataframe(result[2].reset_index()[['제목', '점수']])
     with tab3:
         ESG_element = st.selectbox("ESG 요소를 선택해주세요.", ["전체", "Environmental", "Social", "Governance"])
         if ESG_element == "전체":

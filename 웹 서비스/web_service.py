@@ -34,6 +34,39 @@ S_news = df[df['구분(ESG)'] == 'S'].sort_values(by = '점수', ascending = Fal
 # G와 관련된 뉴스
 G_news = df[df['구분(ESG)'] == 'G'].sort_values(by = '점수', ascending = False)
 
+def preprocess(df_company):
+    avg_all = round(df_company["점수"].mean(), 1)
+    df_E = df_company[df_company["구분(ESG)"] == "E"]['점수']
+    avg_E = round(df_E.mean(), 1)
+    df_S = df_company[df_company['구분(ESG)'] == "S"]['점수']
+    avg_S = round(df_S.mean(), 1)
+    df_G = df_company[df_company['구분(ESG)'] == "G"]['점수']
+    avg_G = round(df_G.mean(), 1)
+    E_news = df_company[df_company['구분(ESG)'] == 'E'].sort_values(by = '점수', ascending = False)
+    S_news = df_company[df_company['구분(ESG)'] == 'S'].sort_values(by = '점수', ascending = False)
+    G_news = df_company[df_company['구분(ESG)'] == 'G'].sort_values(by = '점수', ascending = False)
+    date_df = df_company[['날짜', '점수', '구분(ESG)']]
+    date_df['date'] = date_df['날짜'].apply(lambda x:x.split(" ")[0])
+    date_df['date'] = pd.to_datetime(date_df['date'])
+    date_df_ESG = date_df[['date', '점수']]
+    date_df_E = date_df[date_df['구분(ESG)'] == 'E'][['date', '점수']] # E에 대한 시계열
+    date_df_S = date_df[date_df['구분(ESG)'] == 'S'][['date', '점수']] # S에 대한 시계열
+    date_df_G = date_df[date_df['구분(ESG)'] == 'G'][['date', '점수']] # G에 대한 시계열
+    date_avg_ESG = date_df_ESG.groupby('date').mean()
+    date_avg_ESG = date_avg_ESG.reset_index()
+    date_avg_E = date_df_E.groupby('date').mean()
+    date_avg_E = date_avg_E.reset_index()
+    date_avg_S = date_df_S.groupby('date').mean()
+    date_avg_S = date_avg_S.reset_index()
+    date_avg_G = date_df_G.groupby('date').mean()
+    date_avg_G = date_avg_G.reset_index()
+    create_gauge_chart(value=avg_all, title="기업", range_min=0, range_max=100)
+    create_gauge_chart(value=avg_E, title="E(환경)분석", range_min=0, range_max=100)
+    create_gauge_chart(value=avg_S, title="S(사회)분석", range_min=0, range_max=100)
+    create_gauge_chart(value=avg_G, title="G(지배)분석", range_min=0, range_max=100)
+
+    return [len(E_news), len(S_news), len(G_news)]
+
 # 시계열 데이터 시각화
 date_df = df[['날짜', '점수', '구분(ESG)']]
 date_df['date'] = date_df['날짜'].apply(lambda x:x.split(" ")[0])
@@ -112,46 +145,20 @@ if choose == "ESG 소개":
         st.write('ESG관련 논문 및 ISO자료로 부터 ESG요소별 키워드 추출 => 기사데이터 추출 => 기사데이터에서 ESG 요소 판단 => 기사데이터에서 긍/부정 판단....')
 
 elif choose == "ESG 서비스":
+    company_select = ["전체"]
+    company_select.extend(df["기업"].unique())
+    company = st.selectbox("ESG분석할 기업을 선택해주세요.", company_select)
     tab1, tab2, tab3 = st.tabs(["ESG 전체 지표", "ESG각 요소별 평가지표 및 관련기사", "ESG지표별 시계열 차트"])
     with tab1:
-        company_select = ["전체"]
-        company_select.extend(df["기업"].unique())
-        company = st.selectbox("ESG분석할 기업을 선택해주세요.", company_select)
         if company == "전체":
             df_company = df
         else: # 분석 기업을 '전체'를 선택하지 않고, 특정 기업을 선택한 경우
             df_company = df[df['기업'] == company]
-        # 맨위의 전처리 과정과 동일
-        avg_all = round(df_company["점수"].mean(), 1)
-        df_E = df_company[df_company["구분(ESG)"] == "E"]['점수']
-        avg_E = round(df_E.mean(), 1)
-        df_S = df_company[df_company['구분(ESG)'] == "S"]['점수']
-        avg_S = round(df_S.mean(), 1)
-        df_G = df_company[df_company['구분(ESG)'] == "G"]['점수']
-        avg_G = round(df_G.mean(), 1)
-        E_news = df_company[df_company['구분(ESG)'] == 'E'].sort_values(by = '점수', ascending = False)
-        S_news = df_company[df_company['구분(ESG)'] == 'S'].sort_values(by = '점수', ascending = False)
-        G_news = df_company[df_company['구분(ESG)'] == 'G'].sort_values(by = '점수', ascending = False)
-        date_df = df_company[['날짜', '점수', '구분(ESG)']]
-        date_df['date'] = date_df['날짜'].apply(lambda x:x.split(" ")[0])
-        date_df['date'] = pd.to_datetime(date_df['date'])
-        date_df_ESG = date_df[['date', '점수']]
-        date_df_E = date_df[date_df['구분(ESG)'] == 'E'][['date', '점수']] # E에 대한 시계열
-        date_df_S = date_df[date_df['구분(ESG)'] == 'S'][['date', '점수']] # S에 대한 시계열
-        date_df_G = date_df[date_df['구분(ESG)'] == 'G'][['date', '점수']] # G에 대한 시계열
-        date_avg_ESG = date_df_ESG.groupby('date').mean()
-        date_avg_ESG = date_avg_ESG.reset_index()
-        date_avg_E = date_df_E.groupby('date').mean()
-        date_avg_E = date_avg_E.reset_index()
-        date_avg_S = date_df_S.groupby('date').mean()
-        date_avg_S = date_avg_S.reset_index()
-        date_avg_G = date_df_G.groupby('date').mean()
-        date_avg_G = date_avg_G.reset_index()
-        create_gauge_chart(value=avg_all, title="기업", range_min=0, range_max=100)
+        result = preprocess(df_company)
         st.image("./기업.png")
-        pie = px.pie(values = [len(E_news), len(S_news), len(G_news)], names = ["Environmental", "Social", "Governance"])
+        pie = px.pie(values = result, names = ["Environmental", "Social", "Governance"])
         st.write(pie)
-        bar = px.bar(x = ["Environmental", "Social", "Governance"], y = [len(E_news), len(S_news), len(G_news)])
+        bar = px.bar(x = ["Environmental", "Social", "Governance"], y = result)
         st.write(bar)
     with tab2:
         col1, col2, col3 = st.columns(3)

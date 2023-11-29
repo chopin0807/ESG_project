@@ -37,13 +37,20 @@ G_news = df[df['구분(ESG)'] == 'G'].sort_values(by = '점수', ascending = Fal
 date_df = df[['날짜', '점수', '구분(ESG)']]
 date_df['date'] = date_df['날짜'].apply(lambda x:x.split(" ")[0])
 date_df['date'] = pd.to_datetime(date_df['date'])
-date_df = date_df[['date', '점수']]
+date_df_ESG = date_df[['date', '점수']]
+date_df_E = date_df[date_df['구분(ESG)'] == 'E'][['date', '점수']] # E에 대한 시계열
+date_df_S = date_df[date_df['구분(ESG)'] == 'S'][['date', '점수']] # S에 대한 시계열
+date_df_G = date_df[date_df['구분(ESG)'] == 'G'][['date', '점수']] # G에 대한 시계열
 # 같은 날짜에 대한 점수를 평균화하여 처리
-date_avg_df = date_df.groupby('date').mean()
-date_avg_df = date_avg_df.reset_index()
-# date를 index로 지정
-# date_avg_df.index = date_avg_df['date']
-# date_avg_df.set_index('date', inplace=True)
+date_avg_ESG = date_df_ESG.groupby('date').mean()
+date_avg_ESG = date_avg_ESG.reset_index()
+date_avg_E = date_df_E.groupby('date').mean()
+date_avg_E = date_avg_E.reset_index()
+date_avg_S = date_df_S.groupby('date').mean()
+date_avg_S = date_avg_S.reset_index()
+date_avg_G = date_df_G.groupby('date').mean()
+date_avg_G = date_avg_G.reset_index()
+
 
 # 게이지 차트 그리기
 import plotly.graph_objects as go
@@ -104,7 +111,7 @@ if choose == "ESG 소개":
         st.write('ESG관련 논문 및 ISO자료로 부터 ESG요소별 키워드 추출 => 기사데이터 추출 => 기사데이터에서 ESG 요소 판단 => 기사데이터에서 긍/부정 판단....')
 
 elif choose == "ESG 서비스":
-    tab1, tab2, tab3 = st.tabs(["ESG 전체 지표", "ESG각 요소별 평가지표 및 관련기사", "기간별 ESG지표 시계열 차트"])
+    tab1, tab2, tab3 = st.tabs(["ESG 전체 지표", "ESG각 요소별 평가지표 및 관련기사", "ESG지표별 시계열 차트"])
     with tab1:
         pie = px.pie(values = [len(E_news), len(S_news), len(G_news)], names = ["Environmental", "Social", "Governance"])
         st.write(pie)
@@ -119,8 +126,19 @@ elif choose == "ESG 서비스":
         with col3:
             st.image("G(지배)분석.png")
     with tab3:
-        line = px.line(data_frame= date_avg_df, x="date", y="점수")
-        st.write(line)
+        ESG_element = st.selectbox("ESG 요소를 선택해주세요.", ["전체", "Environmental", "Social", "Governance"])
+        if ESG_element == "전체":
+            line = px.line(data_frame= date_avg_ESG, x="date", y="점수")
+            st.write(line)
+        elif ESG_element == "Environmental":
+            line = px.line(data_frame= date_avg_E, x="date", y="점수")
+            st.write(line)
+        elif ESG_element == "Social":
+            line = px.line(data_frame= date_avg_S, x="date", y="점수")
+            st.write(line)
+        elif ESG_element == "Governance":
+            line = px.line(data_frame= date_avg_G, x="date", y="점수")
+            st.write(line)
 
 elif choose == "참고자료":
     st.header("ESG 관련 논문 자료 및 ISO 표준 관련 참고자료")

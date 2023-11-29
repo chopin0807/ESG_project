@@ -34,7 +34,7 @@ S_news = df[df['구분(ESG)'] == 'S'].sort_values(by = '점수', ascending = Fal
 # G와 관련된 뉴스
 G_news = df[df['구분(ESG)'] == 'G'].sort_values(by = '점수', ascending = False)
 
-def preprocess(df_company):
+def preprocess(df_company, tab_num):
     avg_all = round(df_company["점수"].mean(), 1)
     df_E = df_company[df_company["구분(ESG)"] == "E"]['점수']
     avg_E = round(df_E.mean(), 1)
@@ -65,7 +65,12 @@ def preprocess(df_company):
     create_gauge_chart(value=avg_S, title="S(사회)분석", range_min=0, range_max=100)
     create_gauge_chart(value=avg_G, title="G(지배)분석", range_min=0, range_max=100)
 
-    return [len(E_news), len(S_news), len(G_news)]
+    if tab_num == 1:
+        return [len(E_news), len(S_news), len(G_news)]
+    elif tab_num == 2:
+        return [E_news, S_news, G_news]
+    else:
+        return [date_avg_ESG, date_avg_E, date_avg_S, date_avg_G]
 
 # 시계열 데이터 시각화
 date_df = df[['날짜', '점수', '구분(ESG)']]
@@ -154,13 +159,18 @@ elif choose == "ESG 서비스":
             df_company = df
         else: # 분석 기업을 '전체'를 선택하지 않고, 특정 기업을 선택한 경우
             df_company = df[df['기업'] == company]
-        result = preprocess(df_company)
+        result = preprocess(df_company, 1)
         st.image("./기업.png")
         pie = px.pie(values = result, names = ["Environmental", "Social", "Governance"])
         st.write(pie)
         bar = px.bar(x = ["Environmental", "Social", "Governance"], y = result)
         st.write(bar)
     with tab2:
+        if company == "전체":
+            df_company = df
+        else: # 분석 기업을 '전체'를 선택하지 않고, 특정 기업을 선택한 경우
+            df_company = df[df['기업'] == company]
+        result = preprocess(df_company, 2)
         col1, col2, col3 = st.columns(3)
         with col1:
             st.image("E(환경)분석.png")

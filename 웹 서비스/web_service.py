@@ -113,6 +113,7 @@ if choose == "ESG 소개":
 elif choose == "ESG 서비스":
     tab1, tab2, tab3 = st.tabs(["ESG 전체 지표", "ESG각 요소별 평가지표 및 관련기사", "ESG지표별 시계열 차트"])
     with tab1:
+        st.image("./전체.png")
         pie = px.pie(values = [len(E_news), len(S_news), len(G_news)], names = ["Environmental", "Social", "Governance"])
         st.write(pie)
         bar = px.bar(x = ["Environmental", "Social", "Governance"], y = [len(E_news), len(S_news), len(G_news)])

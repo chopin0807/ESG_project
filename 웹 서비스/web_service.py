@@ -182,18 +182,23 @@ elif choose == "ESG 서비스":
             st.image("G(지배)분석.png")
             st.dataframe(result[2].reset_index()[['제목', '점수']])
     with tab3:
+        if company == "전체":
+            df_company = df
+        else: # 분석 기업을 '전체'를 선택하지 않고, 특정 기업을 선택한 경우
+            df_company = df[df['기업'] == company]
+        result = preprocess(df_company, 3)
         ESG_element = st.selectbox("ESG 요소를 선택해주세요.", ["전체", "Environmental", "Social", "Governance"])
         if ESG_element == "전체":
-            line = px.line(data_frame= date_avg_ESG, x="date", y="점수")
+            line = px.line(data_frame= result[0], x="date", y="점수")
             st.write(line)
         elif ESG_element == "Environmental":
-            line = px.line(data_frame= date_avg_E, x="date", y="점수")
+            line = px.line(data_frame= result[1], x="date", y="점수")
             st.write(line)
         elif ESG_element == "Social":
-            line = px.line(data_frame= date_avg_S, x="date", y="점수")
+            line = px.line(data_frame= result[2], x="date", y="점수")
             st.write(line)
         elif ESG_element == "Governance":
-            line = px.line(data_frame= date_avg_G, x="date", y="점수")
+            line = px.line(data_frame= result[3], x="date", y="점수")
             st.write(line)
 
 elif choose == "참고자료":

@@ -3,7 +3,6 @@ import streamlit as st
 from streamlit_option_menu import option_menu
 import pandas as pd
 import os
-import pandas as pd
 import plotly.express as px
 
 # 터미널에서 실행(이 파이썬 파일에 속해 있는 디렉터리로 이동해서) -> streamlit run web_service.py

@@ -12,27 +12,6 @@ import plotly.express as px
 df = pd.read_csv("./ESG샘플.csv")
 # 필요한 행 추출
 df = df[['날짜', '기업', '제목', '구분(ESG)', '점수']]
-# 전체 점수에 대한 평균
-avg_all = round(df["점수"].mean(), 1)
-# ESG 각 요소별 평균점수 구하기
-# E에 대한 점수
-df_E = df[df["구분(ESG)"] == "E"]['점수']
-# E에 대한 평균
-avg_E = round(df_E.mean(), 1)
-# S에 대한 점수
-df_S = df[df['구분(ESG)'] == "S"]['점수']
-# S에 대한 평균
-avg_S = round(df_S.mean(), 1)
-# G에 대한 점수
-df_G = df[df['구분(ESG)'] == "G"]['점수']
-# G에 대한 평균
-avg_G = round(df_G.mean(), 1)
-# E와 관련된 뉴스
-E_news = df[df['구분(ESG)'] == 'E'].sort_values(by = '점수', ascending = False)
-# S와 관련된 뉴스
-S_news = df[df['구분(ESG)'] == 'S'].sort_values(by = '점수', ascending = False)
-# G와 관련된 뉴스
-G_news = df[df['구분(ESG)'] == 'G'].sort_values(by = '점수', ascending = False)
 
 def preprocess(df_company, tab_num):
     avg_all = round(df_company["점수"].mean(), 1)
@@ -115,11 +94,6 @@ def create_gauge_chart(value, title, range_min, range_max):
     fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', font_size=16)
     fig.write_image("{}.png".format(title))
 
-# 모든 ESG요소별 게이지 차트
-create_gauge_chart(value=avg_all, title="전체", range_min=0, range_max=100)
-create_gauge_chart(value=avg_E, title="E(환경)분석", range_min=0, range_max=100)
-create_gauge_chart(value=avg_S, title="S(사회)분석", range_min=0, range_max=100)
-create_gauge_chart(value=avg_G, title="G(지배)분석", range_min=0, range_max=100)
 with st.sidebar: # 참고 url: https://luvris2.tistory.com/121
     choose = option_menu("ESG 평가 서비스", ["ESG 소개", "ESG 서비스", "참고자료"],
                          icons=['pen', 'boxes','database'],

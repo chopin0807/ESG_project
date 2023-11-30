@@ -8,28 +8,31 @@ import plotly.express as px
 # 터미널에서 실행(이 파이썬 파일에 속해 있는 디렉터리로 이동해서) -> streamlit run web_service.py
 
 # 사용할 ESG 데이터
-df = pd.read_csv("./ESG샘플.csv")
+df = pd.read_csv("./우리은행_자료.csv")
 # 필요한 행 추출
-df = df[['날짜', '기업', '제목', '구분(ESG)', '점수']]
+df = df[['날짜', '기업', '기사제목', 'ESG_Sentence', 'ESG', '점수']]
+# ESG 값이 'X'인 것 제거
+df.drop(df[df['ESG'] == 'X'].index, inplace=True)
+df = df.reset_index()
+df.drop('index', axis = 1, inplace=True)
 
 def preprocess(df_company, tab_num):
     avg_all = round(df_company["점수"].mean(), 1)
-    df_E = df_company[df_company["구분(ESG)"] == "E"]['점수']
+    df_E = df_company[df_company["ESG"] == "E"]['점수']
     avg_E = round(df_E.mean(), 1)
-    df_S = df_company[df_company['구분(ESG)'] == "S"]['점수']
+    df_S = df_company[df_company['ESG'] == "S"]['점수']
     avg_S = round(df_S.mean(), 1)
-    df_G = df_company[df_company['구분(ESG)'] == "G"]['점수']
+    df_G = df_company[df_company['ESG'] == "G"]['점수']
     avg_G = round(df_G.mean(), 1)
-    E_news = df_company[df_company['구분(ESG)'] == 'E'].sort_values(by = '점수', ascending = False)
-    S_news = df_company[df_company['구분(ESG)'] == 'S'].sort_values(by = '점수', ascending = False)
-    G_news = df_company[df_company['구분(ESG)'] == 'G'].sort_values(by = '점수', ascending = False)
-    date_df = df_company[['날짜', '점수', '구분(ESG)']]
+    E_news = df_company[df_company['ESG'] == 'E'].sort_values(by = '점수', ascending = False)
+    S_news = df_company[df_company['ESG'] == 'S'].sort_values(by = '점수', ascending = False)
+    G_news = df_company[df_company['ESG'] == 'G'].sort_values(by = '점수', ascending = False)
+    date_df = df_company[['날짜', '점수', 'ESG']]
     date_df['date'] = date_df['날짜'].apply(lambda x:x.split(" ")[0])
-    date_df['date'] = pd.to_datetime(date_df['date'])
     date_df_ESG = date_df[['date', '점수']]
-    date_df_E = date_df[date_df['구분(ESG)'] == 'E'][['date', '점수']] # E에 대한 시계열
-    date_df_S = date_df[date_df['구분(ESG)'] == 'S'][['date', '점수']] # S에 대한 시계열
-    date_df_G = date_df[date_df['구분(ESG)'] == 'G'][['date', '점수']] # G에 대한 시계열
+    date_df_E = date_df[date_df['ESG'] == 'E'][['date', '점수']] # E에 대한 시계열
+    date_df_S = date_df[date_df['ESG'] == 'S'][['date', '점수']] # S에 대한 시계열
+    date_df_G = date_df[date_df['ESG'] == 'G'][['date', '점수']] # G에 대한 시계열
     date_avg_ESG = date_df_ESG.groupby('date').mean()
     date_avg_ESG = date_avg_ESG.reset_index()
     date_avg_E = date_df_E.groupby('date').mean()
@@ -49,24 +52,6 @@ def preprocess(df_company, tab_num):
         return [E_news, S_news, G_news]
     else:
         return [date_avg_ESG, date_avg_E, date_avg_S, date_avg_G]
-
-# 시계열 데이터 시각화
-date_df = df[['날짜', '점수', '구분(ESG)']]
-date_df['date'] = date_df['날짜'].apply(lambda x:x.split(" ")[0])
-date_df['date'] = pd.to_datetime(date_df['date'])
-date_df_ESG = date_df[['date', '점수']]
-date_df_E = date_df[date_df['구분(ESG)'] == 'E'][['date', '점수']] # E에 대한 시계열
-date_df_S = date_df[date_df['구분(ESG)'] == 'S'][['date', '점수']] # S에 대한 시계열
-date_df_G = date_df[date_df['구분(ESG)'] == 'G'][['date', '점수']] # G에 대한 시계열
-# 같은 날짜에 대한 점수를 평균화하여 처리
-date_avg_ESG = date_df_ESG.groupby('date').mean()
-date_avg_ESG = date_avg_ESG.reset_index()
-date_avg_E = date_df_E.groupby('date').mean()
-date_avg_E = date_avg_E.reset_index()
-date_avg_S = date_df_S.groupby('date').mean()
-date_avg_S = date_avg_S.reset_index()
-date_avg_G = date_df_G.groupby('date').mean()
-date_avg_G = date_avg_G.reset_index()
 
 
 # 게이지 차트 그리기
@@ -147,13 +132,22 @@ elif choose == "ESG 서비스":
         col1, col2, col3 = st.columns(3)
         with col1:
             st.image("E(환경)분석.png")
-            st.dataframe(result[0].reset_index()[['제목', '점수']])
+            st.header("긍정")
+            st.dataframe(result[0].reset_index()[['기사제목', 'ESG_Sentence', '점수']])
+            st.header("부정")
+            st.dataframe(result[0].reset_index()[['기사제목', 'ESG_Sentence', '점수']].sort_values(by = '점수', ascending = True))
         with col2:
             st.image("S(사회)분석.png")
-            st.dataframe(result[1].reset_index()[['제목', '점수']])
+            st.header("긍정")
+            st.dataframe(result[1].reset_index()[['기사제목', 'ESG_Sentence', '점수']])
+            st.header("부정")
+            st.dataframe(result[1].reset_index()[['기사제목', 'ESG_Sentence', '점수']].sort_values(by = '점수', ascending = True))
         with col3:
             st.image("G(지배)분석.png")
-            st.dataframe(result[2].reset_index()[['제목', '점수']])
+            st.header("긍정")
+            st.dataframe(result[2].reset_index()[['기사제목', 'ESG_Sentence', '점수']])
+            st.header("부정")
+            st.dataframe(result[2].reset_index()[['기사제목', 'ESG_Sentence', '점수']].sort_values(by = '점수', ascending = True))
     with tab3:
         if company == "전체":
             df_company = df

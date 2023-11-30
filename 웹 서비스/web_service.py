@@ -15,7 +15,6 @@ for i in data_list:
     # 필요한 행 추출
     data = data[['날짜', '기업', '기사제목', 'ESG_Sentence', 'ESG', '점수']]
     df = pd.concat([df, data], ignore_index=True)
-    print(df)
 # 필요한 행 추출
 df = df[['날짜', '기업', '기사제목', 'ESG_Sentence', 'ESG', '점수']]
 # ESG 값이 'X'인 것 제거

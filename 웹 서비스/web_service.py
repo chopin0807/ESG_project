@@ -41,10 +41,10 @@ def preprocess(df_company, tab_num):
     date_avg_S = date_avg_S.reset_index()
     date_avg_G = date_df_G.groupby('date').mean()
     date_avg_G = date_avg_G.reset_index()
-    create_gauge_chart(value=avg_all, title="기업", range_min=0, range_max=100)
-    create_gauge_chart(value=avg_E, title="E(환경)분석", range_min=0, range_max=100)
-    create_gauge_chart(value=avg_S, title="S(사회)분석", range_min=0, range_max=100)
-    create_gauge_chart(value=avg_G, title="G(지배)분석", range_min=0, range_max=100)
+    create_gauge_chart(value=avg_all, title="기업", range_min=-100, range_max=100)
+    create_gauge_chart(value=avg_E, title="E(환경)분석", range_min=-100, range_max=100)
+    create_gauge_chart(value=avg_S, title="S(사회)분석", range_min=-100, range_max=100)
+    create_gauge_chart(value=avg_G, title="G(지배)분석", range_min=-100, range_max=100)
 
     if tab_num == 1:
         return [len(E_news), len(S_news), len(G_news)]

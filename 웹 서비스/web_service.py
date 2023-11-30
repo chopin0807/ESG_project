@@ -1,4 +1,3 @@
-import numpy as np
 import streamlit as st
 from streamlit_option_menu import option_menu
 import pandas as pd
@@ -8,7 +7,15 @@ import plotly.express as px
 # 터미널에서 실행(이 파이썬 파일에 속해 있는 디렉터리로 이동해서) -> streamlit run web_service.py
 
 # 사용할 ESG 데이터
-df = pd.read_csv("./우리은행_자료.csv")
+file_list = os.listdir("./기업별데이터")
+data_list = [file for file in file_list if file.endswith(".csv")]
+df = pd.DataFrame({'날짜' : [], '기업' : [], '기사제목': [], 'ESG_Sentence' : [], 'ESG' : [], '점수' : []})
+for i in data_list:
+    data = pd.read_csv("./기업별데이터/{}".format(i))
+    # 필요한 행 추출
+    data = data[['날짜', '기업', '기사제목', 'ESG_Sentence', 'ESG', '점수']]
+    df = pd.concat([df, data], ignore_index=True)
+    print(df)
 # 필요한 행 추출
 df = df[['날짜', '기업', '기사제목', 'ESG_Sentence', 'ESG', '점수']]
 # ESG 값이 'X'인 것 제거

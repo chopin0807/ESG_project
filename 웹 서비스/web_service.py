@@ -100,7 +100,7 @@ with st.sidebar: # 참고 url: https://luvris2.tistory.com/121
 # 각 메뉴를 선택시 표시되는 내용
 
 if choose == "ESG 소개":
-    tab1, tab2, tab3 = st.tabs(['ESG 인사이트', '서비스 목적', '프로세스'])
+    tab1, tab2, tab3 = st.tabs(['ESG 인사이트', '서비스 목적', 'ESG 중요성 및 의의'])
 
     with tab1:
         st.header("Find Insight in the ESG Keyword")
@@ -110,8 +110,8 @@ if choose == "ESG 소개":
         # '서비스 목적'을 누르면 표시되는 내용
         st.image("./ESG프로세스.gif")
     with tab3:
-        # '프로세스'를 누르면 표시되는 내용
-        st.write('ESG관련 논문 및 ISO자료로 부터 ESG요소별 키워드 추출 => 기사데이터 추출 => 기사데이터에서 ESG 요소 판단 => 기사데이터에서 긍/부정 판단....')
+        # 'ESG 중요성 및 의의'를 누르면 표시되는 내용
+        st.image("./ESG의의.png")
 
 elif choose == "ESG 서비스":
     company_select = ["전체"]

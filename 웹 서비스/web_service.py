@@ -108,7 +108,7 @@ if choose == "ESG 소개":
         st.image("./ESG개요.png")
     with tab2:
         # '서비스 목적'을 누르면 표시되는 내용
-        st.write('각 기업별로 ESG지표를 산출하여 평가함으로써...')
+        st.image("./ESG프로세스.gif")
     with tab3:
         # '프로세스'를 누르면 표시되는 내용
         st.write('ESG관련 논문 및 ISO자료로 부터 ESG요소별 키워드 추출 => 기사데이터 추출 => 기사데이터에서 ESG 요소 판단 => 기사데이터에서 긍/부정 판단....')
